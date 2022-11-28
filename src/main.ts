@@ -1,11 +1,11 @@
 // @ts-nocheck
-let plays = {
+export let plays = {
   "hamlet": {"name": "Hamlet", "type": "tragedy"},
   "as-like": {"name": "As You Like It", "type": "comedy"},
   "othello": {"name": "Othello", "type": "tragedy"}
 };
 
-let invoices = [
+export let invoices = [
   {
     "customer": "BigCo",
     "performances": [
@@ -26,7 +26,7 @@ let invoices = [
 ]
 
 
-function statement (invoice, plays) {
+export function statement (invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
@@ -59,7 +59,7 @@ function statement (invoice, plays) {
     // add extra credit for every ten comedy attendees
     if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
     // print line for this order
-    result += ` ${play.name}: ${format(thisAmount/100)} (${perf.audience} seats)\n`;
+    result += `${play.name}: ${format(thisAmount/100)} (${perf.audience} seats)\n`;
     totalAmount += thisAmount;
     }
     result += `Amount owed is ${format(totalAmount/100)}\n`;

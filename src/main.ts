@@ -48,7 +48,7 @@ function amountFor(performance, play) {
   return result;
 }
 
-function getPlayId(performance) {
+function playFrom(performance) {
   return plays[performance.playID];
 }
 
@@ -63,16 +63,16 @@ export function statement(invoice, plays) {
   }).format;
 
   for (let performance of invoice.performances) {
-    let thisAmount = amountFor(performance, getPlayId(performance));
+    let thisAmount = amountFor(performance, playFrom(performance));
     // calculates the value for a presentation
 
     // add volume credits
     volumeCredits += Math.max(performance.audience - 30, 0);
     // add extra credit for every ten comedy attendees
-    if ("comedy" === getPlayId(performance).type)
+    if ("comedy" === playFrom(performance).type)
       volumeCredits += Math.floor(performance.audience / 5);
     // print line for this order
-    result += `${getPlayId(performance).name}: ${format(thisAmount / 100)} (${
+    result += `${playFrom(performance).name}: ${format(thisAmount / 100)} (${
       performance.audience
     } seats)\n`;
     totalAmount += thisAmount;

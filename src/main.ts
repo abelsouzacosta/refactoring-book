@@ -37,6 +37,8 @@ export function statement(invoice, plays) {
 
   for (let perf of invoice.performances) {
     const play = plays[perf.playID];
+
+    // calculates the value for a presentation
     let thisAmount = 0;
     switch (play.type) {
       case "tragedy":

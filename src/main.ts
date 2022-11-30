@@ -48,6 +48,10 @@ function amountFor(performance, play) {
   return result;
 }
 
+function getPlayId(performance) {
+  return plays[performance.playID];
+}
+
 export function statement(invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
@@ -59,7 +63,7 @@ export function statement(invoice, plays) {
   }).format;
 
   for (let performance of invoice.performances) {
-    const play = plays[performance.playID];
+    const play = getPlayId(performance);
 
     let thisAmount = amountFor(performance, play);
     // calculates the value for a presentation

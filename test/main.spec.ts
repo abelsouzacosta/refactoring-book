@@ -4,7 +4,7 @@ import { statement, invoices, plays } from "../src/main"
 
 describe('statement', () => {
   it('Should return response with valid arguments given', () => {
-    let result = statement(invoices[0], plays);
+    let result = statement(invoices[0]);
 
     let phrase = "Statement for BigCo\n"+
     "Hamlet: $650.00 (55 seats)\n"+

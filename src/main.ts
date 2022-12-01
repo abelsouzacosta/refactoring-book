@@ -52,7 +52,7 @@ function amountFor(performance) {
   return result;
 }
 
-export function statement(invoice, plays) {
+export function statement(invoice) {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
@@ -63,7 +63,6 @@ export function statement(invoice, plays) {
   }).format;
 
   for (let performance of invoice.performances) {
-    let thisAmount = amountFor(performance);
     // calculates the value for a presentation
 
     // add volume credits
@@ -72,14 +71,14 @@ export function statement(invoice, plays) {
     if ("comedy" === playFrom(performance).type)
       volumeCredits += Math.floor(performance.audience / 5);
     // print line for this order
-    result += `${playFrom(performance).name}: ${format(thisAmount / 100)} (${
+    result += `${playFrom(performance).name}: ${format(amountFor(performance)/100)} (${
       performance.audience
     } seats)\n`;
-    totalAmount += thisAmount;
+    totalAmount += amountFor(performance);
   }
   result += `Amount owed is ${format(totalAmount / 100)}\n`;
   result += `You earned ${volumeCredits} credits\n`;
   return result;
 }
 
-console.log(statement(invoices[0], plays));
+console.log(statement(invoices[0]));

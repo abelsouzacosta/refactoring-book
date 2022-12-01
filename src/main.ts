@@ -25,9 +25,13 @@ export let invoices = [
   },
 ];
 
-function amountFor(performance, play) {
+function playFrom(performance) {
+  return plays[performance.playID];
+}
+
+function amountFor(performance) {
   let result = 0;
-  switch (play.type) {
+  switch (playFrom(performance).type) {
     case "tragedy":
       result = 40000;
       if (performance.audience > 30) {
@@ -42,14 +46,10 @@ function amountFor(performance, play) {
       result += 300 * performance.audience;
       break;
     default:
-      throw new Error(`unknown type: ${play.type}`);
+      throw new Error(`unknown type: ${playFrom(performance).type}`);
   }
 
   return result;
-}
-
-function playFrom(performance) {
-  return plays[performance.playID];
 }
 
 export function statement(invoice, plays) {
@@ -63,7 +63,7 @@ export function statement(invoice, plays) {
   }).format;
 
   for (let performance of invoice.performances) {
-    let thisAmount = amountFor(performance, playFrom(performance));
+    let thisAmount = amountFor(performance);
     // calculates the value for a presentation
 
     // add volume credits

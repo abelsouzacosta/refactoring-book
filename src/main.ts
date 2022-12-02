@@ -36,7 +36,7 @@ export function statement(invoice) {
   function playFrom(performance) {
     return plays[performance.playID];
   }
-  
+
   function amountFor(performance) {
     let result = 0;
     switch (playFrom(performance).type) {
@@ -56,21 +56,21 @@ export function statement(invoice) {
       default:
         throw new Error(`unknown type: ${playFrom(performance).type}`);
     }
-  
+
     return result;
   }
-  
+
   function volumeCreditsForPerformance(performance) {
     let result = 0;
-  
+
     result += Math.max(performance.audience - 30, 0);
-  
+
     if ("comedy" === playFrom(performance).type)
       result += Math.floor(performance.audience / 5);
-  
+
     return result;
   }
-  
+
   function usd(amount) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -78,36 +78,36 @@ export function statement(invoice) {
       minimumFractionDigits: 2,
     }).format(amount);
   }
-  
+
   function getTotalVolumeCredits(invoice) {
     let result = 0;
-  
+
     for (let performance of invoice.performances) {
       result += volumeCreditsForPerformance(performance);
     }
-  
+
     return result;
   }
-  
+
   function getTotalAmount(invoice) {
     let result = 0;
-  
+
     for (let performance of invoice.performances) {
       result += amountFor(performance);
     }
-  
+
     return result;
   }
-  
+
   function renderPlainText(data) {
     let result = `Statement for ${data.customer}\n`;
-    
+
     for (let performance of data.performances) {
-      result += `${playFrom(performance).name}: ${usd(amountFor(performance)/100)} (${
-        performance.audience
-      } seats)\n`;
+      result += `${playFrom(performance).name}: ${usd(
+        amountFor(performance) / 100
+      )} (${performance.audience} seats)\n`;
     }
-  
+
     result += `Amount owed is ${usd(getTotalAmount(data) / 100)}\n`;
     result += `You earned ${getTotalVolumeCredits(data)} credits\n`;
     return result;

@@ -92,10 +92,8 @@ export function statement(invoice) {
     totalAmount += amountFor(performance);
   }
   
-  let volumeCredits = getTotalVolumeCredits(invoice);
-
   result += `Amount owed is ${usd(totalAmount / 100)}\n`;
-  result += `You earned ${volumeCredits} credits\n`;
+  result += `You earned ${getTotalVolumeCredits(invoice)} credits\n`;
   return result;
 }
 

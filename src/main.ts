@@ -56,7 +56,7 @@ function volumeCreditsForPerformance(performance) {
   let result = 0;
 
   result += Math.max(performance.audience - 30, 0);
-  // add extra credit for every ten comedy attendees
+  
   if ("comedy" === playFrom(performance).type)
     result += Math.floor(performance.audience / 5);
 
@@ -74,11 +74,8 @@ export function statement(invoice) {
   }).format;
 
   for (let performance of invoice.performances) {
-    // calculates the value for a presentation
-
-    // add volume credits
     volumeCredits += volumeCreditsForPerformance(performance);
-    // print line for this order
+
     result += `${playFrom(performance).name}: ${format(amountFor(performance)/100)} (${
       performance.audience
     } seats)\n`;

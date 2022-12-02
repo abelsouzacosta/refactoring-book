@@ -30,6 +30,12 @@ function playFrom(performance) {
   return plays[performance.playID];
 }
 
+/**
+ * Calculates the amount charged for a performance
+ * TODO: replace conditional with polymorphism -> strategy | factory | chain of responsibility
+ * @param performance performance object
+ * @returns
+ */
 function amountFor(performance) {
   let result = 0;
   switch (performance.play.type) {

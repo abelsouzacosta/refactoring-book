@@ -73,16 +73,16 @@ function usd(amount) {
 
 export function statement(invoice) {
   let totalAmount = 0;
-  let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
-
+  
   for (let performance of invoice.performances) {
     result += `${playFrom(performance).name}: ${usd(amountFor(performance)/100)} (${
       performance.audience
     } seats)\n`;
     totalAmount += amountFor(performance);
   }
-
+  
+  let volumeCredits = 0;
   for (let performance of invoice.performances) {
     volumeCredits += volumeCreditsForPerformance(performance);
   }

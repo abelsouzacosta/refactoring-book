@@ -91,22 +91,27 @@ function getTotalAmount(invoice) {
   return result;
 }
 
-function renderPlainText(invoice) {
-  let result = `Statement for ${invoice.customer}\n`;
+function renderPlainText(data) {
+  let result = `Statement for ${data.customer}\n`;
   
-  for (let performance of invoice.performances) {
+  for (let performance of data.performances) {
     result += `${playFrom(performance).name}: ${usd(amountFor(performance)/100)} (${
       performance.audience
     } seats)\n`;
   }
 
-  result += `Amount owed is ${usd(getTotalAmount(invoice) / 100)}\n`;
-  result += `You earned ${getTotalVolumeCredits(invoice)} credits\n`;
+  result += `Amount owed is ${usd(getTotalAmount(data) / 100)}\n`;
+  result += `You earned ${getTotalVolumeCredits(data)} credits\n`;
   return result;
 }
 
 export function statement(invoice) {
-  return renderPlainText(invoice);
+  let statementData = {};
+
+  statementData.customer = invoice.customer;
+  statementData.performances = invoice.performances;
+
+  return renderPlainText(statementData);
 }
 
 console.log(statement(invoices[0]));

@@ -91,7 +91,7 @@ function getTotalAmount(invoice) {
   return result;
 }
 
-export function statement(invoice) {
+function renderPlainText(invoice) {
   let result = `Statement for ${invoice.customer}\n`;
   
   for (let performance of invoice.performances) {
@@ -99,10 +99,14 @@ export function statement(invoice) {
       performance.audience
     } seats)\n`;
   }
-  
+
   result += `Amount owed is ${usd(getTotalAmount(invoice) / 100)}\n`;
   result += `You earned ${getTotalVolumeCredits(invoice)} credits\n`;
   return result;
+}
+
+export function statement(invoice) {
+  return renderPlainText(invoice);
 }
 
 console.log(statement(invoices[0]));

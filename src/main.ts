@@ -89,6 +89,9 @@ export function statement(invoice) {
     result += `${playFrom(performance).name}: ${usd(amountFor(performance)/100)} (${
       performance.audience
     } seats)\n`;
+  }
+  
+  for (let performance of invoice.performances) {
     totalAmount += amountFor(performance);
   }
   

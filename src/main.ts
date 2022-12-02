@@ -26,20 +26,27 @@ export let invoices = [
 ];
 
 export function statement(invoice) {
-  let statementData = {};
+  return renderPlainText(createStatementData(invoice));
 
-  statementData.customer = invoice.customer;
-  statementData.performances = invoice.performances.map(enrichPerformance);
+  function createStatementData(invoice) {
+    let statementData = {};
 
-  return renderPlainText(statementData);
+    statementData.customer = invoice.customer;
+    statementData.performances = invoice.performances.map(enrichPerformance);
+    statementData.totalAmount = getTotalAmount(statementData);
+    statementData.totalVolumeCredits = getTotalVolumeCredits(statementData);
 
-  function enrichPerformance(performance) {
-    let result = Object.assign({}, performance);
+    function enrichPerformance(performance) {
+      let result = Object.assign({}, performance);
 
-    result.play = playFrom(performance);
-    result.amount = amountFor(result);
+      result.play = playFrom(result);
+      result.amount = amountFor(result);
+      result.volumeCredits = volumeCreditsForPerformance(result);
 
-    return result;
+      return result;
+    }
+
+    return statementData;
   }
 
   function playFrom(performance) {
@@ -92,7 +99,7 @@ export function statement(invoice) {
     let result = 0;
 
     for (let performance of invoice.performances) {
-      result += volumeCreditsForPerformance(performance);
+      result += performance.volumeCredits;
     }
 
     return result;
@@ -117,8 +124,8 @@ export function statement(invoice) {
       } seats)\n`;
     }
 
-    result += `Amount owed is ${usd(getTotalAmount(data) / 100)}\n`;
-    result += `You earned ${getTotalVolumeCredits(data)} credits\n`;
+    result += `Amount owed is ${usd(data.totalAmount / 100)}\n`;
+    result += `You earned ${data.totalVolumeCredits} credits\n`;
     return result;
   }
 }

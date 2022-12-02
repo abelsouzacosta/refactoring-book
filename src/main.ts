@@ -29,9 +29,17 @@ export function statement(invoice) {
   let statementData = {};
 
   statementData.customer = invoice.customer;
-  statementData.performances = invoice.performances;
+  statementData.performances = invoice.performances.map(enrichPerformance);
 
   return renderPlainText(statementData);
+
+  function enrichPerformance(performance) {
+    let result = Object.assign({}, performance);
+
+    result.play = playFrom(performance);
+
+    return result;
+  }
 
   function playFrom(performance) {
     return plays[performance.playID];
@@ -39,7 +47,7 @@ export function statement(invoice) {
 
   function amountFor(performance) {
     let result = 0;
-    switch (playFrom(performance).type) {
+    switch (performance.play.type) {
       case "tragedy":
         result = 40000;
         if (performance.audience > 30) {
@@ -54,7 +62,7 @@ export function statement(invoice) {
         result += 300 * performance.audience;
         break;
       default:
-        throw new Error(`unknown type: ${playFrom(performance).type}`);
+        throw new Error(`unknown type: ${performance.play.type}`);
     }
 
     return result;
@@ -65,7 +73,7 @@ export function statement(invoice) {
 
     result += Math.max(performance.audience - 30, 0);
 
-    if ("comedy" === playFrom(performance).type)
+    if ("comedy" === performance.play.type)
       result += Math.floor(performance.audience / 5);
 
     return result;
@@ -103,7 +111,7 @@ export function statement(invoice) {
     let result = `Statement for ${data.customer}\n`;
 
     for (let performance of data.performances) {
-      result += `${playFrom(performance).name}: ${usd(
+      result += `${performance.play.name}: ${usd(
         amountFor(performance) / 100
       )} (${performance.audience} seats)\n`;
     }

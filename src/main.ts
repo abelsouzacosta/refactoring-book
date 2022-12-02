@@ -82,7 +82,6 @@ function getTotalVolumeCredits(invoice) {
 }
 
 export function statement(invoice) {
-  let totalAmount = 0;
   let result = `Statement for ${invoice.customer}\n`;
   
   for (let performance of invoice.performances) {
@@ -91,6 +90,7 @@ export function statement(invoice) {
     } seats)\n`;
   }
   
+  let totalAmount = 0;
   for (let performance of invoice.performances) {
     totalAmount += amountFor(performance);
   }

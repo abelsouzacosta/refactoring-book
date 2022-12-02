@@ -81,6 +81,16 @@ function getTotalVolumeCredits(invoice) {
   return result;
 }
 
+function getTotalAmount(invoice) {
+  let result = 0;
+
+  for (let performance of invoice.performances) {
+    result += amountFor(performance);
+  }
+
+  return result;
+}
+
 export function statement(invoice) {
   let result = `Statement for ${invoice.customer}\n`;
   
@@ -90,12 +100,7 @@ export function statement(invoice) {
     } seats)\n`;
   }
   
-  let totalAmount = 0;
-  for (let performance of invoice.performances) {
-    totalAmount += amountFor(performance);
-  }
-  
-  result += `Amount owed is ${usd(totalAmount / 100)}\n`;
+  result += `Amount owed is ${usd(getTotalAmount(invoice) / 100)}\n`;
   result += `You earned ${getTotalVolumeCredits(invoice)} credits\n`;
   return result;
 }

@@ -37,6 +37,7 @@ export function statement(invoice) {
     let result = Object.assign({}, performance);
 
     result.play = playFrom(performance);
+    result.amount = amountFor(result);
 
     return result;
   }
@@ -101,7 +102,7 @@ export function statement(invoice) {
     let result = 0;
 
     for (let performance of invoice.performances) {
-      result += amountFor(performance);
+      result += performance.amount;
     }
 
     return result;
@@ -111,9 +112,9 @@ export function statement(invoice) {
     let result = `Statement for ${data.customer}\n`;
 
     for (let performance of data.performances) {
-      result += `${performance.play.name}: ${usd(
-        amountFor(performance) / 100
-      )} (${performance.audience} seats)\n`;
+      result += `${performance.play.name}: ${usd(performance.amount / 100)} (${
+        performance.audience
+      } seats)\n`;
     }
 
     result += `Amount owed is ${usd(getTotalAmount(data) / 100)}\n`;

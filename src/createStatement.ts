@@ -34,7 +34,6 @@ function playFrom(performance) {
  * Calculates the amount charged for a performance
  * TODO: replace conditional with polymorphism -> strategy | factory | chain of responsibility
  * @param performance performance object
- * @returns
  */
 function amountFor(performance) {
   let result = 0;
@@ -70,6 +69,11 @@ function volumeCreditsForPerformance(performance) {
   return result;
 }
 
+/**
+ * Calculates total volume credits for a customer
+ * TODO: replace loop for pipeline
+ * @param invoice invoice object
+ */
 function getTotalVolumeCredits(invoice) {
   let result = 0;
 
@@ -80,6 +84,10 @@ function getTotalVolumeCredits(invoice) {
   return result;
 }
 
+/**
+ * Calculates total amount of a invoice
+ * @param invoice invoice object
+ *  */
 function getTotalAmount(invoice) {
   let result = 0;
 

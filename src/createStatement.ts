@@ -86,6 +86,7 @@ function getTotalVolumeCredits(invoice) {
 
 /**
  * Calculates total amount of a invoice
+ * TODO: replace loop for pipeline
  * @param invoice invoice object
  *  */
 function getTotalAmount(invoice) {

@@ -1,5 +1,7 @@
 // @ts-nocheck
+import { ComedyCalculator } from "./calculators/ComedyCalculator";
 import { PerformanceCalculator } from "./calculators/PerformanceCalculator";
+import { TragedyCalculator } from "./calculators/TragedyCalculator";
 
 export let plays = {
   hamlet: { name: "Hamlet", type: "tragedy" },
@@ -16,7 +18,7 @@ export function createStatementData(invoice) {
   statementData.totalVolumeCredits = getTotalVolumeCredits(statementData);
 
   function enrichPerformance(performance) {
-    let calculator = new PerformanceCalculator(
+    let calculator = createPerformanceCalculator(
       performance,
       playFrom(performance)
     );
@@ -30,6 +32,16 @@ export function createStatementData(invoice) {
   }
 
   return statementData;
+}
+
+function createPerformanceCalculator(performance, play) {
+  switch (play.type) {
+    case "tragedy":
+      return new TragedyCalculator(performance, play);
+
+    case "comedy":
+      return new ComedyCalculator(performance, play);
+  }
 }
 
 function playFrom(performance) {

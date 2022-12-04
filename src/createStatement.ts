@@ -69,11 +69,6 @@ function volumeCreditsForPerformance(performance) {
   return result;
 }
 
-/**
- * Calculates total volume credits for a customer
- * TODO: replace loop for pipeline
- * @param invoice invoice object
- */
 function getTotalVolumeCredits(invoice) {
   return invoice.performances.reduce(
     (total, performance) => total + performance.volumeCredits,
@@ -81,11 +76,6 @@ function getTotalVolumeCredits(invoice) {
   );
 }
 
-/**
- * Calculates total amount of a invoice
- * TODO: replace loop for pipeline
- * @param invoice invoice object
- *  */
 function getTotalAmount(invoice) {
   return invoice.performances.reduce(
     (total, performance) => total + performance.amount,

@@ -75,13 +75,10 @@ function volumeCreditsForPerformance(performance) {
  * @param invoice invoice object
  */
 function getTotalVolumeCredits(invoice) {
-  let result = 0;
-
-  for (let performance of invoice.performances) {
-    result += performance.volumeCredits;
-  }
-
-  return result;
+  return invoice.performances.reduce(
+    (total, performance) => total + performance.volumeCredits,
+    0
+  );
 }
 
 /**
@@ -90,11 +87,8 @@ function getTotalVolumeCredits(invoice) {
  * @param invoice invoice object
  *  */
 function getTotalAmount(invoice) {
-  let result = 0;
-
-  for (let performance of invoice.performances) {
-    result += performance.amount;
-  }
-
-  return result;
+  return invoice.performances.reduce(
+    (total, performance) => total + performance.amount,
+    0
+  );
 }

@@ -37,6 +37,17 @@ export class PerformanceCalculator {
 
     return result;
   }
+
+  volumeCredits() {
+    let result = 0;
+
+    result += Math.max(this.performance.audience - 30, 0);
+
+    if ("comedy" === this.play.type)
+      result += Math.floor(this.performance.audience / 5);
+
+    return result;
+  }
 }
 
 export function createStatementData(invoice) {
@@ -55,8 +66,8 @@ export function createStatementData(invoice) {
     let result = Object.assign({}, performance);
 
     result.play = calculator.play;
-    result.amount = amountFor(result);
-    result.volumeCredits = volumeCreditsForPerformance(result);
+    result.amount = calculator.amount();
+    result.volumeCredits = calculator.volumeCredits();
 
     return result;
   }
@@ -66,17 +77,6 @@ export function createStatementData(invoice) {
 
 function playFrom(performance) {
   return plays[performance.playID];
-}
-
-function volumeCreditsForPerformance(performance) {
-  let result = 0;
-
-  result += Math.max(this.performance.audience - 30, 0);
-
-  if ("comedy" === performance.play.type)
-    result += Math.floor(this.performance.audience / 5);
-
-  return result;
 }
 
 function getTotalVolumeCredits(invoice) {
